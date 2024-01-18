@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 import React, { useEffect, useRef } from 'react';
 import '../styles/index.css';
 import Throttle from '../utilities/Throttle';
@@ -17,8 +18,8 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
         canvas.height = screenHeight;
 
         let colorDot = 'blue';
-        
-       
+
+
         canvas.style.display = 'block';
         ctx.fillStyle = colorDot;
 
@@ -27,6 +28,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
             y: null
         };
 
+        const missiles = [];
 
 
 
@@ -37,7 +39,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                 this.targetX = null;
                 this.targetY = null;
                 this.state = 'idle'; // 'idle', 'flying', 'exploding'
-                this.velocity = 10;
+                this.velocity = 15;
                 this.explosionRadius = 100;
                 this.explosionDuration = 30;
                 this.explosionCounter = 0;
@@ -51,6 +53,12 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
 
                 this.width = 30; // Set the width of the missile image
                 this.height = 30; // Set the height of the missile image
+
+
+                this.swirlSize = 5; // Control the magnitude of the swirl
+                this.swirlFrequency = 0.2; // Control the frequency of the swirl
+                this.swirlOffset = 1; // Initialize the swirl offset
+
             }
 
 
@@ -75,15 +83,25 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                     let dy = this.targetY - this.y;
                     let distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 10) {
+                    if (distance < 50) {
                         this.state = 'exploding';
                         this.explosionCounter = this.explosionDuration;
                     } else {
+                        // Update swirl offset
+                        this.swirlOffset += this.swirlFrequency;
+
+                        // Calculate the homing effect
+                        let swirlX = Math.cos(this.swirlOffset) * this.swirlSize;
+                        let swirlY = Math.sin(this.swirlOffset) * this.swirlSize;
+
+                        // Adjust missile trajectory with the swirl
+                        this.x += (dx / distance * this.velocity) + swirlX;
+                        this.y += (dy / distance * this.velocity) + swirlY;
                         // Calculate the angle between the missile's current direction and the target
                         const targetAngle = Math.atan2(dy, dx);
 
                         // Interpolate the angle to smoothly rotate the missile
-                        const rotationSpeed = 0.1;
+                        const rotationSpeed = 1;
                         const diff = targetAngle - this.angle;
                         if (Math.abs(diff) > rotationSpeed) {
                             this.angle += Math.sign(diff) * rotationSpeed;
@@ -118,8 +136,14 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                     if (this.explosionCounter <= 0) {
                         this.state = 'idle';
                     }
+
                 }
+
             }
+            isDone() {
+                return this.state === 'idle';
+            }
+
             draw(ctx) {
                 if (this.state === 'flying') {
                     ctx.save(); // Save the current canvas state
@@ -136,6 +160,8 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
             }
         }
 
+
+
         const missile = new Missile();
 
         const dots = {
@@ -147,7 +173,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
 
         // New variables for customization
         const lineWidth = 1; // Set the desired line width
-        const mouseEffectDistance = 300; // Set the maximum distance for mouse effect
+        const mouseEffectDistance = 350; // Set the maximum distance for mouse effect
         const minRadius = .9; // Minimum radius of dots
         const maxRadius = 3; // Maximum radius of dots when close to the mouse
 
@@ -221,6 +247,13 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
         }
 
 
+        function launchMissile(x, y) {
+            const newMissile = new Missile();
+            newMissile.launch(x, y);
+            missiles.push(newMissile);
+        }
+
+
         function animateDots() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -244,7 +277,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                         : mouseEffectDistance;
 
                     if (distance < dots.distance) {
-                        const opacity = Math.max(0, Math.min(1, 1 - mouseDistance / mouseEffectDistance));
+                        const opacity = Math.max(0.1, Math.min(1, 1 - mouseDistance / mouseEffectDistance));
                         ctx.strokeStyle = `rgba(72, 141, 199, ${opacity})`;
                         ctx.beginPath();
                         ctx.moveTo(dot1.x, dot1.y);
@@ -253,8 +286,17 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                     }
                 }
             }
-            missile.animate(ctx);
-            missile.draw(ctx);
+            // Iterate through all missiles to animate and draw
+            missiles.forEach((missile, index) => {
+                missile.animate(ctx);
+                missile.draw(ctx);
+
+                // Remove missiles that are done
+                if (missile.isDone()) {
+                    missiles.splice(index, 1);
+                }
+            });
+
 
             requestAnimationFrame(animateDots);
         }
@@ -263,7 +305,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
             const rect = canvasRef.current.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            missile.launch(x, y);
+            launchMissile(x, y);
         }
         if (isMobile) {
             mousePosition.x += 300

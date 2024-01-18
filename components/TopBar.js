@@ -20,7 +20,7 @@ const TopBar = ({homeRef, aboutRef, projectsRef, contactRef}) => {
         }
     };
     return (
-        <div className='topBar'>
+        <nav className='topBar'>
 
             <div className='leftLinks'>
                 <button onClick={() => scrollToRef(homeRef)}>Home</button>
@@ -77,7 +77,7 @@ const TopBar = ({homeRef, aboutRef, projectsRef, contactRef}) => {
                 </div>
 
             </div>
-        </div>
+        </nav>
     );
 };
 

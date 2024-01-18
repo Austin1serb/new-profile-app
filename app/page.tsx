@@ -1,21 +1,29 @@
 /* eslint-disable react/no-unescaped-entities */
-// pages/index.js
+
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
+import './globals.css';
 import '../styles/index.css'
 import Throttle from '../utilities/Throttle';
 import TopBar from '../components/TopBar';
-import './globals.css';
 import dynamic from 'next/dynamic';
-import StaticCanvasDots from '../components/StaticCanvasDots';
-import Icon from '../components/Icon';
 import Image from 'next/image';
-import profilePicture from '../assets/profile.jpg';
-// Dynamically import the component, disable SSR
+//import Loader from '../assets/ajax-loader.gif'
+//import Project from '../components/Project';
 const CanvasDots = dynamic(
     () => import('../components/CanvasDots'),
-    { ssr:false, loading: () => <StaticCanvasDots screenHeight={'100vh'} screenWidth={'100vw'} isMobile={true} /> }
+    { ssr: false, loading: () => <Image src={'https://i.imgur.com/ORzQeVw.png'} width={1200} height={800} alt="backgound" className="connecting-dots-static" priority /> }
 );
+const About = dynamic(
+    () => import('../components/About'),
+    { ssr: true, loading: () => <></> }
+);
+
+const Project = dynamic(
+    () => import('../components/Project'),
+    { ssr: false, loading: () => <></> }
+);
+
 
 const Home = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -31,7 +39,7 @@ const Home = () => {
     const projectsRef = useRef(null);
     const contactRef = useRef(null);
 
-  
+
 
     useEffect(() => {
         let timer: string | number | NodeJS.Timeout | undefined;
@@ -94,10 +102,7 @@ const Home = () => {
 
         <div className='main-container'>
             <div className='top-container' ref={homeRef}></div>
-            <div className='canvas-container'>
-               <CanvasDots isMobile={isMobile} screenHeight={screenHeight} screenWidth={screenWidth}/>
-            </div>
-            <div className='header-container'>
+            <header className='header-container'>
                 <h1 className='header-index'>
                     Hello, I'm <span className='name-index'>Austin.</span> <br />
                     I'm <span className="phrase">{currentPhrase}</span>
@@ -118,232 +123,54 @@ const Home = () => {
 
                     </div>
                 </h1>
-            </div>
+            </header>
+            <section className='canvas-container'>
+                <CanvasDots isMobile={isMobile} screenHeight={screenHeight} screenWidth={screenWidth} />
+            </section>
             <div className="separation"></div>
-            <div id="my-work" className='my-work' >
+            <main id="my-work" className='my-work' >
                 <TopBar
                     homeRef={homeRef}
                     aboutRef={aboutRef}
                     projectsRef={projectsRef}
                     contactRef={contactRef}
                 />
-                <div ref={aboutRef} className='my-work-container'>
-                    <h2 className='about-title'>About</h2>
-                    <div className='about-title-underline'></div>
-                </div>
-                <div className='about-container'>
-                    <div className='profile-picture-container'>
-                        <div className="profile-picture">
-                            <div className="profile-box">
-                                <div className="profile-box-color">
-
-                                    <div className="profile-picture-image">
-                                        <Image
-                                            src={profilePicture}
-                                            alt="Profile"
-                                            height={367} width={320}
-                                            className='profile-color'
-                                            placeholder="blur"
-                                            blurDataURL="https://i.imgur.com/Vd9UEt7.jpg"
-                                            priority
-                                        />
-                                    </div>
-                                </div>
-                                <div className="profile-picture-image">
-                                    <Image
-                                        src={profilePicture}
-                                        alt="Profile"
-                                        height={367} width={320}
-                                        className='profile-gray'
-                                        placeholder="blur"
-                                        blurDataURL="https://i.imgur.com/Vd9UEt7.jpg"
-                                        priority
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='profile-description'>
-
-                            <h2>
-                                Fully committed to the philosophy of life-long learning, I’m a full stack developer with a deep passion for JavaScript, React and all things web development. The unique combination of creativity, logic, technology and never running out of new things to discover, drives my excitement and passion for web development. When I’m not at my computer I like to spend my time drawing, keeping fit and being social.</h2>
-                        </div>
+                <section className="about-section" >
+                    <div ref={aboutRef} className='my-work-container'>
+                        <h2 className='about-title'>About</h2>
+                        <div className='about-title-underline'></div>
                     </div>
-                    <div className="skills-section">
-                        <h3>Languages</h3>
-                        <div className="skills-grid">
-                            {/* HTML */}
-                            <div className="skill-icon">
-                                <h6>HTML</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='html' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='html' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* CSS */}
-                            <div className="skill-icon">
-                                <h6>CSS</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='css' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='css' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* JavaScript */}
-                            <div className="skill-icon">
-                                <h6>JAVASCRIPT</h6>
-                                <div>
-                                    <div className="box">
-                                        <div className="box-color">
-                                            <Icon height='40px' width='40px' className='color' name='javascript' />
-                                        </div>
-                                        <Icon height='40px' width='40px' className='gray' name='javascript' />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* PYTHON */}
-                            <div className="skill-icon">
-                                <h6>PYTHON</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='python' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='python' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* JAVA */}
-                            <div className="skill-icon">
-                                <h6>JAVA</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='java' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='java' height={50} width={50} />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Databases */}
-                        <h3>Databases</h3>
-                        <div className="skills-grid">
-                            {/* MONGODB */}
-                            <div className="skill-icon">
-                                <h6>MONGODB</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='mongodb' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='mongodb' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* MYSQL */}
-                            <div className="skill-icon">
-                                <h6>MYSQL</h6>
-                                <div className="box" >
-                                    <div className="box-color">
-                                        <Icon className='color' name='mysql' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='mysql' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* ...other databases... */}
-                        </div>
-
-                        {/* Libraries & Frameworks */}
-                        <h3>Libraries & Frameworks</h3>
-                        <div className="skills-grid">
-                            {/* REACT */}
-                            <div className="skill-icon">
-                                <h6>REACT</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='react' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='react' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* Express.js */}
-                            <div className="skill-icon">
-                                <h6>Express.js</h6>
-                                <div className="box">
-
-                                    <Icon className='gray' name='express' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* NEXT.js */}
-                            <div className="skill-icon" >
-                                <h6>NEXT.js</h6>
-                                <div className="box">
-                                    <Icon className='next-icon' name='next' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* NODE.js */}
-                            <div className="skill-icon">
-                                <h6>NODE.js</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='node' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='node' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* GIT */}
-                            <div className="skill-icon">
-                                <h6>GIT</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='git' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='git' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* MATERIAL UI */}
-                            <div className="skill-icon">
-                                <h6>MATERIAL UI</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='mui' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='mui' height={50} width={50} />
-                                </div>
-                            </div>
-
-                            {/* AWS EC2 */}
-                            <div className="skill-icon">
-                                <h6>AWS EC2</h6>
-                                <div className="box">
-                                    <div className="box-color">
-                                        <Icon className='color' name='aws' height={50} width={50} />
-                                    </div>
-                                    <Icon className='gray' name='aws' height={50} width={50} />
-                                </div>
-                            </div>
-                        </div>
+                    <About />
+                </section>
+                <section className='projects'>
+                    <div ref={projectsRef} className='my-work-container'>
+                        <h2 className='about-title'>Projects</h2>
+                        <div className='about-title-underline'></div>
                     </div>
+                    <div className='projects-container'>
+                        <Project
+                            projectName="Ecommerce Website"
+                            images={[
+                                { url: 'https://i.imgur.com/dkswWBC.gif', title: 'Home Page & DropDown' },
+                                { url: 'https://i.imgur.com/ifEoNri.gif', title: 'Shop Page & CheckOut' },
+                                { url: 'https://i.imgur.com/ccGzdP6.gif', title: 'Admin Dashboard' }
+                            ]} // Array of image URLs
+                            projectDetails='Full product management, User Auth, Payment processing | React | Node.js | Express.js | MongoDB | Square SDK | Clouninary API | Google API'
+                            liveSiteUrl="https://herbanaturalco.com/"
+                            githubUrl="https://github.com/Austin1serb/Xhale-Vapor-N-Smoke"
 
-                </div>
-                <div ref={projectsRef} className='my-work-container'>
-                    <h2 className='about-title'>Projects</h2>
-                    <div className='about-title-underline'></div>
-                </div>
-                <div className='projects-container'>
-
-                </div>
-
-            </div>
+                        />
+                    </div>
+                </section>
+                <section className='contact'>
+                    <div ref={contactRef} className='my-work-container'>
+                        <h2 className='contact-title'>Contact</h2>
+                        <div className='contact-title-underline'></div>
+                    </div>
+                    <div className='contact-container'>
+                    </div>
+                </section>
+            </main>
 
         </div>
 
