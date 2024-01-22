@@ -1,9 +1,14 @@
 import React from 'react'
-import Icon from '../components/Icon';
 import profilePicture from '../assets/profile.jpg';
 import Image from 'next/image';
 import '../styles/index.css'
+import dynamic from 'next/dynamic';
 
+
+const Icon = dynamic(
+    () => import('../components/Icon'),
+    { ssr: true, loading: () => <>⌛</> }
+);
 
 const About = () => {
   return (

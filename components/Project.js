@@ -4,7 +4,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from 'next/image';
 import '../styles/project.css'
 
-const Project = ({ projectName, images, projectDetails, liveSiteUrl, githubUrl, }) => {
+const Project = ({ projectName, images, projectDetails, liveSiteUrl, githubUrl,isEven }) => {
+
+
+    const projectContainerClass = !isEven ? "project-container" : "project-container-reverse";
+    const projectSliderClass = !isEven ? "project-slider" : "project-slider-reverse";
 
     const settings = {
         dots: true,
@@ -12,39 +16,18 @@ const Project = ({ projectName, images, projectDetails, liveSiteUrl, githubUrl, 
         speed: 1000,
         slidesToShow: 1,
         slidesToScroll: 1,
-        //responsive: [
-        //    {
-        //        breakpoint: 1024,
-        //        settings: {
-        //            slidesToShow: 1,
-        //            slidesToScroll: 1,
-        //            infinite: true,
-        //            dots: true
-        //        }
-        //    },
-        //    {
-        //        breakpoint: 600,
-        //        settings: {
-        //            slidesToShow: 1,
-        //            slidesToScroll: 1
-        //        }
-        //    },
-
-        //],
-
-        // You can add more settings as per your requirement
     };
-
+    
     return (
-        <div className="project-container">
+        <div className={projectContainerClass}>
             <div className='mobile-project-title'>
                 <h3 className='text-outline text-outline-hover' data-text={projectName}>{projectName}</h3>
             </div>
-            <div className="project-slider">
+            <div className={projectSliderClass}>
                 <Slider {...settings}>
                     {images.map((item, index) => (
                         <div key={item.title} className='carousel-inner'>
-                            <div className="image-title">{item.title}</div>
+                            <div className="image-title"> <span> {item.title} </span> </div>
                             <div className='image-img-container' >
                                 <Image
                                     src={item.url}
@@ -66,16 +49,27 @@ const Project = ({ projectName, images, projectDetails, liveSiteUrl, githubUrl, 
                     <span>
                         {projectDetails}
                     </span>
-                    <a className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site</a>
-                    <a className='text-outline text-outline-hover' data-text='GitHub Repo' href={githubUrl} target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                    <div>
+                    {liveSiteUrl ?
+                    (
+                        <a className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site </a>
+              
+                
+                    ) : null}
+                    <a className='text-outline text-outline-hover' data-text='Learn More' href={githubUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
+                    </div>
                 </div>
-            
+
             </div>
             <div className='project-details-mobile'>
-                    <a className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site </a>
-                    <span> | </span>
-                    <a className='text-outline text-outline-hover' data-text='GitHub Repo' href={githubUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
+                {liveSiteUrl ?
+                    (<>
+                        <a className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site </a>
+                        <span> | </span>
+                    </>
+                    ) : null}
+                <a className='text-outline text-outline-hover' data-text='Learn More' href={githubUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
+            </div>
         </div>
     );
 };

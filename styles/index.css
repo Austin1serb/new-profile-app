@@ -48,16 +48,25 @@
 
 .canvas-container {
     height: 100vh;
-    width: 99vw
+    width: 99vw;
+    position: fixed;
+
+
 }
 
 canvas {
     width: 100%;
-    height: auto
+    height: auto;
+    z-index: -1;
 }
 
 .connecting-dots {
     background-color: #1a1a1a
+}
+
+.separation {
+    height: 100vh;
+    z-index: -1;
 }
 
 .top-container {
@@ -69,7 +78,8 @@ canvas {
     color: #dcdcdc;
     top: 40%;
     right: 30%;
-    width: 450px
+    width: 450px;
+    z-index: 10;
 }
 
 .btn,
@@ -103,21 +113,16 @@ canvas {
 }
 
 .name-index {
-    color: #fe6f49
+    color: #FA4D31
 }
 
-.container {
-    transform: translate(-50px, 50px);
-    display: flex;
-    justify-content: center;
-    align-items: center
-}
+
 
 .btn {
     top: 120%;
     cursor: pointer;
     background: 0 0;
-    border: 1px solid #91c9ff;
+    border: 1px solid #3A8B8D;
     outline: 0
 }
 
@@ -177,12 +182,13 @@ canvas {
     text-align: center;
     color: #fff;
     font-size: 48px;
-    z-index: 99
+    z-index: 4;
+    text-shadow: -2px 2px 2px black;
 }
 
 .about-title-underline {
     text-align: center;
-    background-color: #fa673e;
+    background-color: #FA4D31;
     height: 20px;
     width: 140px;
     margin-left: 35px;
@@ -201,7 +207,7 @@ canvas {
     z-index: 2;
     margin: 20px 0;
     padding: 20px;
-    background: rgba(40, 40, 40, .3);
+    background: rgba(40, 47, 72, .3);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, .1)
 }
@@ -211,7 +217,8 @@ canvas {
     transform: translate(0, 44px);
     padding: 30px;
     border-radius: 8px;
-    background: rgba(50, 50, 50, 1.5);
+    background: rgba(40, 47, 72, 1);
+    ;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .55);
     transition: transform .3s;
     cursor: pointer;
@@ -233,12 +240,13 @@ canvas {
     width: 320px;
     position: absolute;
     bottom: 0;
-    z-index: 2
+
 }
 
 .profile-color,
 .profile-gray {
     border-radius: 8px !important;
+
 }
 
 .box-color,
@@ -251,7 +259,8 @@ canvas {
 .profile-gray {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
-    z-index: 2
+    z-index: 2;
+    transition: height .5s;
 }
 
 .profile-box-color {
@@ -259,13 +268,14 @@ canvas {
     position: absolute;
     bottom: 0;
     -webkit-transition: height .5s;
-    transition: height .5s;
+    transition: height .5s ease-in;
+
     z-index: 2
 }
 
 .profile-picture:hover .profile-box-color {
     height: 100%;
-    z-index: 3
+    z-index: 3;
 }
 
 .languages-container h6 {
@@ -276,7 +286,7 @@ canvas {
 .skills-section {
     margin: 20px 0;
     padding: 20px;
-    background: rgba(40, 40, 40, .3);
+    background: rgba(40, 47, 72, .3);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
     z-index: 2
@@ -285,8 +295,8 @@ canvas {
 .profile-description,
 .skill-icon {
     border-radius: 8px;
-    background: rgba(50, 50, 50, 1.5);
-    box-shadow: 3px 5px 10px rgba(0, 0, 1, .5)
+    background: rgba(40, 47, 72, 1);
+    box-shadow: 3px 5px 10px rgba(0, 0, 1, .1)
 }
 
 .skills-section h3 {
@@ -448,6 +458,7 @@ canvas {
         justify-content: center;
         transform: translate(0);
         min-width: 380px;
+
     }
 
     .profile-picture-image {
@@ -470,8 +481,9 @@ canvas {
         margin: 10px;
         padding: 30px;
     }
-    .profile-description h2{
-        padding:0;
+
+    .profile-description h2 {
+        padding: 0;
         margin: 0;
     }
 }
@@ -489,3 +501,17 @@ canvas {
 }
 
 .projects-container {}
+
+
+
+/* CONTACT  */
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+
+/* FOOTER */

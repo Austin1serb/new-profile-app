@@ -5,8 +5,24 @@ import Throttle from '../utilities/Throttle';
 
 
 
+function interpolateColor(color1, color2, factor) {
+    const result = color1.slice();
+    for (let i = 0; i < 3; i++) {
+        result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+    }
+    return result;
+}
 
+// Global variables for color oscillation
+const colorDuration = 10000; // 5 seconds for a full red-blue-red cycle
+const startTime = Date.now();
 
+// Function to calculate the current color
+function getCurrentColor() {
+    const elapsedTime = (Date.now() - startTime) % colorDuration;
+    const factor = (1 + Math.sin(2 * Math.PI * elapsedTime / colorDuration)) / 2; // Oscillates between 0 and 1
+    return interpolateColor([0, 0, 255], [255, 0, 0], factor); // Blue and Red
+}
 const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
     const canvasRef = useRef(null);
 
@@ -54,11 +70,6 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                 this.width = 30; // Set the width of the missile image
                 this.height = 30; // Set the height of the missile image
 
-
-                this.swirlSize = 5; // Control the magnitude of the swirl
-                this.swirlFrequency = 0.2; // Control the frequency of the swirl
-                this.swirlOffset = 1; // Initialize the swirl offset
-
             }
 
 
@@ -87,16 +98,13 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                         this.state = 'exploding';
                         this.explosionCounter = this.explosionDuration;
                     } else {
-                        // Update swirl offset
-                        this.swirlOffset += this.swirlFrequency;
+                      
 
-                        // Calculate the homing effect
-                        let swirlX = Math.cos(this.swirlOffset) * this.swirlSize;
-                        let swirlY = Math.sin(this.swirlOffset) * this.swirlSize;
+                       
 
                         // Adjust missile trajectory with the swirl
-                        this.x += (dx / distance * this.velocity) + swirlX;
-                        this.y += (dy / distance * this.velocity) + swirlY;
+                        this.x += (dx / distance * this.velocity)
+                        this.y += (dy / distance * this.velocity)
                         // Calculate the angle between the missile's current direction and the target
                         const targetAngle = Math.atan2(dy, dx);
 
@@ -165,17 +173,17 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
         const missile = new Missile();
 
         const dots = {
-            nb: isMobile ? 400 : 300,
+            nb: isMobile ? 400 : 350,
             distance: isMobile ? 60 : 90,
             array: [],
             mouseDotIndex: 0
         };
 
         // New variables for customization
-        const lineWidth = 1; // Set the desired line width
-        const mouseEffectDistance = 350; // Set the maximum distance for mouse effect
-        const minRadius = .9; // Minimum radius of dots
-        const maxRadius = 3; // Maximum radius of dots when close to the mouse
+        const lineWidth = 1.2; // Set the desired line width
+        const mouseEffectDistance = 300; // Set the maximum distance for mouse effect
+        const minRadius = 1.2; // Minimum radius of dots
+        const maxRadius = 5; // Maximum radius of dots when close to the mouse
 
         class Dot {
             constructor() {
@@ -201,8 +209,13 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
                 ctx.fillStyle = colorDot;
                 ctx.fill();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                const currentColor = getCurrentColor();
+                ctx.fillStyle = `rgb(${currentColor[0]}, ${currentColor[1]}, ${currentColor[2]})`;
+                ctx.fill();
             }
-
+      
+        
             damping = 0.95;
             maxVelocity = 7;
 
@@ -277,8 +290,8 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                         : mouseEffectDistance;
 
                     if (distance < dots.distance) {
-                        const opacity = Math.max(0.1, Math.min(1, 1 - mouseDistance / mouseEffectDistance));
-                        ctx.strokeStyle = `rgba(72, 141, 199, ${opacity})`;
+                        const opacity = Math.max(0.12, Math.min(1, 1 - mouseDistance / mouseEffectDistance));
+                        ctx.strokeStyle = `rgba(72, 141, 255, ${opacity})`; //LINE COLOR
                         ctx.beginPath();
                         ctx.moveTo(dot1.x, dot1.y);
                         ctx.lineTo(dot2.x, dot2.y);
