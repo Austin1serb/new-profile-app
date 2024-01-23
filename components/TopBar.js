@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/TopBar.css'
+import styles from '../styles/TopBar.module.css'
 import Throttle from '../utilities/Throttle'; // Import your throttle utility
 
 const TopBar = ({ homeRef, aboutRef, projectsRef, contactRef }) => {
