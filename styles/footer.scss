@@ -46,13 +46,25 @@
         filter: grayscale(0%);
         transition: all 0.4s ease;
         g{
-            transition: all 0.3s ;
+            transition: all 0.8s ;
             fill:#F5F5F5
         }
     }
     
     
 }
+.footer-svg-mail{
+    margin: 10px;
+    transition: all 0.4s ease;
+    filter: grayscale(100%) brightness(50%);
+    &:hover{
+        transform: scale(1.05);
+        cursor:pointer;
+        filter: grayscale(0%);
+        transition: all 0.4s ease;
+    }
+}
+
 
 .footer-text{
     padding:10px;
@@ -61,6 +73,6 @@
     font-weight: 100;
     text-align: center;
     z-index: 59;
-    color: #F5F5F5;
+    color: #f5f5f5c1;
 
 }

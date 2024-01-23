@@ -1,17 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
-import './globals.css';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import '../styles/index.css'
 import Throttle from '../utilities/Throttle';
 import TopBar from '../components/TopBar';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import Footer from '@/components/Footer';
-import Fish from '@/components/Fish'
-//import Loader from '../assets/ajax-loader.gif'
-//import Project from '../components/Project';
+
 const CanvasDots = dynamic(
     () => import('../components/CanvasDots'),
     { ssr: false, loading: () => <Image src={'https://i.imgur.com/ORzQeVw.png'} width={1200} height={800} alt="backgound" className="connecting-dots-static" priority /> }
@@ -25,6 +21,14 @@ const Project = dynamic(
     () => import('../components/Project'),
     { ssr: false, loading: () => <></> }
 );
+const Footer = dynamic(
+    () => import('../components/Footer'),
+    { ssr: true, loading: () => <></> }
+);
+const Fish = dynamic(
+    () => import('../components/Fish'),
+    { ssr: true, loading: () => <></> }
+);
 
 
 
@@ -32,7 +36,7 @@ const Home = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [screenWidth, setScreenWidth] = useState(0); // Initialized with window.innerWidth
     const [screenHeight, setScreenHeight] = useState(0); // Initialized with window.innerHeight
-    const phrases = ['a Software Developer.', 'a Tech Lover', 'an Artist.', 'an Avid Gamer.', 'a Health Enthusiast.', ' a Human.',];
+    const phrases = ['a Software Developer. ', 'a Tech Lover. ', 'an Artist. ', 'an Avid Gamer. ', 'a Health Enthusiast. ', ' a Self Starter. ',];
     const [currentPhrase, setCurrentPhrase] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [loopNum, setLoopNum] = useState(0);
@@ -167,13 +171,14 @@ const Home = () => {
                         <Project
                             projectName="VS Code Extension"
                             images={[
+                                { url: 'https://i.imgur.com/vd78xiw.png', title: 'Avaliable on VScode' },
                                 { url: 'https://i.imgur.com/YsJ7Zwb.gif', title: 'Complex Code Generation' },
                                 { url: 'https://i.imgur.com/B73mnGD.gif', title: 'Context Aware' },
                                 { url: 'https://i.imgur.com/vRPRj0i.gif', title: 'Great at algorithms' }
                             ]} // Array of image URLs
                             projectDetails="This extension revolutionizes your coding experience by introducing context-aware functionality. It intelligently recognizes the programming language you're working in and utilizes your comments to generate optimal code snippets/Full Documents."
                             liveSiteUrl="https://marketplace.visualstudio.com/items?itemName=SerbByteDevelopment.gpt-code-generator"
-                            githubUrl="https://github.com/Austin1serb/GPT-Generator-vsCodeExtension/blob/e12ec140a99220d21b65cb690ce9bf7dc35b08f7/README.md"
+                            githubUrl="https://github.com/Austin1serb/GPT-Generator-vsCodeExtension"
                             isEven={2 % 2 === 0}
                         />
                         <Project
@@ -209,14 +214,16 @@ const Home = () => {
                     </div>
                     <div className='contact-container' >
                         {/*<ContactForm />*/}
-                        <Fish/>
+                        <Suspense fallback={''}>
+                            <Fish />
+                        </Suspense>
+
                     </div>
                 </section>
-         
-                <Footer homeRef={homeRef}/>
+                <Footer homeRef={homeRef} />
 
             </main>
-    
+
         </div>
 
     );

@@ -1,18 +1,24 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'i.imgur.com',
-          },
-          {
-            protocol: 'https',
-            hostname: 'private-user-images.githubusercontent.com',
-          },
-        ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
       },
-      
-}
+      {
+        protocol: 'https',
+        hostname: 'private-user-images.githubusercontent.com',
+      },
+    ],
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
 
-module.exports = nextConfig
+    return config;
+  },
+};
+
+module.exports = nextConfig;

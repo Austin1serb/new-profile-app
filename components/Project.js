@@ -52,11 +52,11 @@ const Project = ({ projectName, images, projectDetails, liveSiteUrl, githubUrl,i
                     <div>
                     {liveSiteUrl ?
                     (
-                        <a className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site </a>
+                        <a aria-label={`Link to website: ${projectName}`} className='text-outline text-outline-hover' data-text='Live Site' href={liveSiteUrl} target="_blank" rel="noopener noreferrer">Live Site </a>
               
                 
                     ) : null}
-                    <a className='text-outline text-outline-hover' data-text='Learn More' href={githubUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
+                    <a aria-label={`Learn more about ${projectName}`} className='text-outline text-outline-hover' data-text='Learn More' href={githubUrl} target="_blank" rel="noopener noreferrer">Learn More</a>
                     </div>
                 </div>
 

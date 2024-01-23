@@ -55,7 +55,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                 this.targetX = null;
                 this.targetY = null;
                 this.state = 'idle'; // 'idle', 'flying', 'exploding'
-                this.velocity = 15;
+                this.velocity = 12;
                 this.explosionRadius = 100;
                 this.explosionDuration = 30;
                 this.explosionCounter = 0;
@@ -98,9 +98,6 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                         this.state = 'exploding';
                         this.explosionCounter = this.explosionDuration;
                     } else {
-                      
-
-                       
 
                         // Adjust missile trajectory with the swirl
                         this.x += (dx / distance * this.velocity)
@@ -109,7 +106,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
                         const targetAngle = Math.atan2(dy, dx);
 
                         // Interpolate the angle to smoothly rotate the missile
-                        const rotationSpeed = 1;
+                        const rotationSpeed = .0001;
                         const diff = targetAngle - this.angle;
                         if (Math.abs(diff) > rotationSpeed) {
                             this.angle += Math.sign(diff) * rotationSpeed;
@@ -176,7 +173,7 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
             nb: isMobile ? 400 : 350,
             distance: isMobile ? 60 : 90,
             array: [],
-            mouseDotIndex: 0
+            mouseDotIndex: 1
         };
 
         // New variables for customization
@@ -315,11 +312,22 @@ const CanvasDots = ({ isMobile, screenWidth, screenHeight }) => {
         }
 
         function handleClick(e) {
+            let x, y;
             const rect = canvasRef.current.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+            const scaleX = canvasRef.current.width / rect.width;   // Relationship bitmap vs. element for X
+            const scaleY = canvasRef.current.height / rect.height; // Relationship bitmap vs. element for Y
+        
+            if (isMobile && e.touches) {
+                x = (e.touches[0].clientX - rect.left) * scaleX;
+                y = (e.touches[0].clientY - rect.top) * scaleY;
+            } else {
+                x = (e.clientX - rect.left) * scaleX;
+                y = (e.clientY - rect.top) * scaleY;
+            }
+        
             launchMissile(x, y);
         }
+        
         if (isMobile) {
             mousePosition.x += 300
             mousePosition.y += 300

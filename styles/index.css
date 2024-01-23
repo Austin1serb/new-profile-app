@@ -141,7 +141,7 @@ canvas {
 }
 
 .btn:hover .btn-outline {
-    stroke-dashoffset: -480
+    stroke-dashoffset: -520;
 }
 
 .bi-arrow-down-circle {
@@ -176,6 +176,12 @@ canvas {
     align-items: center;
     margin-top: 20px;
     z-index: 2
+}
+
+.skill-title {
+    font-size: 14px;
+    font-weight: 100;
+    margin-bottom: 5px;
 }
 
 .about-title {
@@ -247,6 +253,7 @@ canvas {
 .profile-gray {
     border-radius: 8px !important;
 
+
 }
 
 .box-color,
@@ -310,6 +317,8 @@ canvas {
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    justify-items: center; 
+    align-items: center; 
     gap: 20px;
     padding: 0 20px;
     z-index: 2
@@ -341,9 +350,7 @@ canvas {
     z-index: 2
 }
 
-.next-icon {
-    transform: translateX(-8px)
-}
+
 
 .box {
     width: 100%;
@@ -365,7 +372,6 @@ canvas {
 
 .skill-icon:nth-child(3) .box-color,
 .skill-icon:nth-child(3) .gray {
-    transform: translate(5px);
     min-width: 40px;
     z-index: 2
 }
@@ -399,11 +405,14 @@ canvas {
     padding: 10px;
     margin: 20px;
     font-family: 'Times New Roman', Times, serif;
-    font-weight: 100
+    font-weight: 100;
+    font-size: clamp(0.7rem, 3vw, 1.25rem);
+
 }
 
 .cursor {
-    animation: .7s steps(1) infinite blink
+    animation: .7s steps(1) infinite blink;
+    font-size:35px;
 }
 
 @keyframes blink {
@@ -468,6 +477,11 @@ canvas {
     .skill-icon h6 {
         font-size: 12px
     }
+    .box {
+    min-width: 100px;
+        margin-left: -35px;
+        
+    }
 }
 
 @media(max-width:600px) {
@@ -485,6 +499,9 @@ canvas {
     .profile-description h2 {
         padding: 0;
         margin: 0;
+    }
+    .skills-grid {
+        padding:0;
     }
 }
 
