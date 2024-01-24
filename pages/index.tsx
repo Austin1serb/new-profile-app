@@ -2,7 +2,6 @@
 
 "use client"
 import React, { Suspense, useEffect, useRef, useState } from 'react';
-import '../styles/index.css'
 import Throttle from '../utilities/Throttle';
 import TopBar from '../components/TopBar';
 import dynamic from 'next/dynamic';

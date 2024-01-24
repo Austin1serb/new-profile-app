@@ -1,6 +1,5 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { useEffect, useRef } from 'react';
-import '../styles/index.css';
 import Throttle from '../utilities/Throttle';
 
 

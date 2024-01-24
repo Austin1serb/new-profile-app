@@ -1,5 +1,4 @@
 import React from 'react'
-import '../styles/footer.scss'
 import Icon from './Icon';
 // Define the props interface
 interface FooterProps {

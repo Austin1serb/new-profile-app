@@ -1,5 +1,4 @@
 import React from 'react'
-import '@/styles/footer.scss'
 
 const facebook = ({ className, height, width }) => {
   return (

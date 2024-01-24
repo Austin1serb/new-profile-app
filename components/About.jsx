@@ -1,7 +1,6 @@
 import React from 'react'
 import profilePicture from '../assets/profile.jpg';
 import Image from 'next/image';
-import '../styles/index.css'
 import Icon from './Icon'
 
 

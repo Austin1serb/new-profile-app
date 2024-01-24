@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import emailjs from 'emailjs-com';
 import Icon from './Icon'
-import '../styles/fish.scss'
+
 const fish = () => {
     const form = useRef();
     const [showPopover, setShowPopover] = useState(false);
